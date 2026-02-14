@@ -4,11 +4,10 @@
   "description": "Interactive map of PrA training providers in Switzerland",
   "type": "module",
   "scripts": {
-    "dev:frontend": "vite",
-    "dev:server": "node server/index.js",
-    "dev": "node server/index.js & vite --open",
+    "dev": "vite --open",
+    "build:data": "node scripts/build-data.js",
     "build": "vite build",
-    "start": "node server/index.js"
+    "build:all": "npm run build:data && npm run build"
   },
   "keywords": [
     "insos",
@@ -20,10 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "better-sqlite3": "^12.6.2",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "morgan": "^1.10.1"
+    "dotenv": "^17.3.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",

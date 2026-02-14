@@ -9,28 +9,28 @@ See: .planning/PROJECT.md (updated 2026-02-14)
 
 ## Current Position
 
-Phase: 1 of 5 (Data Pipeline)
-Plan: 1 of 2 in current phase
-Status: Executing
-Last activity: 2026-02-14 -- Completed 01-01-PLAN.md
+Phase: 1 of 5 (Data Pipeline) -- COMPLETE
+Plan: 2 of 2 in current phase
+Status: Phase Complete
+Last activity: 2026-02-14 -- Completed 01-02-PLAN.md
 
-Progress: [#.........] 10%
+Progress: [##........] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 3min
-- Total execution time: 0.05 hours
+- Total plans completed: 2
+- Average duration: 5min
+- Total execution time: 0.15 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-data-pipeline | 1/2 | 3min | 3min |
+| 01-data-pipeline | 2/2 | 9min | 5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min)
+- Last 5 plans: 01-01 (3min), 01-02 (6min)
 - Trend: Starting
 
 *Updated after each plan completion*
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - Express 5.x used (latest stable) -- SPA fallback adapted to middleware pattern
 - Vite root set to src/ with build output to dist/
 - OData client uses stale-on-error pattern for resilience
+- geo.admin.ch geocoder with fallback to general location search when zipcode origin fails
+- Seed data committed to repo (365 providers) for instant cold starts
+- Three-layer caching: OData in-memory, SQLite geocode, in-memory result cache
 
 ### Pending Todos
 
@@ -57,11 +60,11 @@ None yet.
 ### Blockers/Concerns
 
 - ~~INSOS data endpoint is undocumented and must be reverse-engineered~~ RESOLVED: OData API at performx.artiset.ch works without auth
-- ~~Unknown whether INSOS data includes coordinates or only addresses~~ RESOLVED: No coordinates in data, geocoding needed (Plan 02)
+- ~~Unknown whether INSOS data includes coordinates or only addresses~~ RESOLVED: No coordinates in data, geocoding needed (Plan 02) -- DONE: all 365 providers geocoded
 - No API contract means INSOS site changes could break the data pipeline without warning
 
 ## Session Continuity
 
 Last session: 2026-02-14
-Stopped at: Completed 01-01-PLAN.md (project scaffold + OData client)
+Stopped at: Completed 01-02-PLAN.md (Phase 1 complete -- full data pipeline operational)
 Resume file: None

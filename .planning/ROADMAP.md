@@ -12,7 +12,7 @@ This roadmap delivers an interactive map of PrA training providers in Switzerlan
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build self-hosted proxy, geocode, cache
+- [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build self-hosted proxy, geocode, cache
 - [ ] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
 - [ ] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
 - [ ] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
@@ -33,8 +33,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffold (Vite + Express + Tailwind) and OData client with normalizer
-- [ ] 01-02-PLAN.md — Geocoding, provider endpoint, seed data, and frontend integration
+- [x] 01-01-PLAN.md — Project scaffold (Vite + Express + Tailwind) and OData client with normalizer
+- [x] 01-02-PLAN.md — Geocoding, provider endpoint, seed data, and frontend integration
 
 ### Phase 2: Interactive Map
 **Goal**: Users see all PrA provider locations plotted on an interactive map of Switzerland
@@ -103,7 +103,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. Data Pipeline | 0/2 | Not started | - |
+| 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
 | 2. Interactive Map | 0/2 | Not started | - |
 | 3. Provider Details | 0/1 | Not started | - |
 | 4. Filtering | 0/3 | Not started | - |

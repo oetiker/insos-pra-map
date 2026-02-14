@@ -4,16 +4,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [tailwindcss()],
   root: 'src',
+  base: '/insos-map/',
   build: {
     outDir: '../dist',
     emptyOutDir: true
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      }
-    }
   }
 });

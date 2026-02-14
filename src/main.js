@@ -3,23 +3,18 @@ import './style.css';
 
 async function init() {
   try {
-    const response = await fetch('/api/providers');
+    const dataUrl = import.meta.env.BASE_URL + 'data/providers.json';
+    const response = await fetch(dataUrl);
     const data = await response.json();
 
     console.log(`INSOS PrA Map: ${data.meta.count} providers loaded`);
-
-    if (data.meta.stale) {
-      console.warn('Warning: serving stale data');
-    }
-
-    if (data.meta.seedData) {
-      console.log('Note: serving seed data (upstream unavailable)');
-    }
+    console.log(`Data generated at: ${data.meta.generatedAt}`);
 
     // Display minimal status in the app div
     const app = document.getElementById('app');
     if (app) {
-      app.textContent = `INSOS PrA Map — ${data.meta.count} Anbieter geladen`;
+      const generated = new Date(data.meta.generatedAt).toLocaleDateString('de-CH');
+      app.textContent = `INSOS PrA Map — ${data.meta.count} Anbieter geladen (Stand: ${generated})`;
     }
   } catch (err) {
     console.error('Failed to load providers:', err);

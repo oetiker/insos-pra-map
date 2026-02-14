@@ -30,12 +30,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Proxy caches responses for at least 1 hour so repeated requests do not hit INSOS
   4. Every provider record includes valid WGS84 latitude/longitude coordinates (geocoded if source data lacks them)
   5. Project scaffold (Vite + Leaflet + Tailwind) builds and serves locally
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — Project scaffold (Vite + Express + Tailwind) and OData client with normalizer
+- [ ] 01-02-PLAN.md — Geocoding, provider endpoint, seed data, and frontend integration
 
 ### Phase 2: Interactive Map
 **Goal**: Users see all PrA provider locations plotted on an interactive map of Switzerland
@@ -104,7 +103,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. Data Pipeline | 0/3 | Not started | - |
+| 1. Data Pipeline | 0/2 | Not started | - |
 | 2. Interactive Map | 0/2 | Not started | - |
 | 3. Provider Details | 0/1 | Not started | - |
 | 4. Filtering | 0/3 | Not started | - |

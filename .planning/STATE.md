@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-02-14)
 Phase: 1 of 5 (Data Pipeline) -- COMPLETE
 Plan: 2 of 2 in current phase
 Status: Phase Complete
-Last activity: 2026-02-15 -- Phase 1 verified and complete
+Last activity: 2026-02-15 -- Completed quick task 1: Refactor to static site with baked-in data and GitHub Actions weekly rebuild
 
 Progress: [##........] 20%
 
@@ -58,6 +58,12 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | Refactor to static site with baked-in data and GitHub Actions weekly rebuild | 2026-02-14 | 2742078 | [1-refactor-to-static-site-with-baked-in-da](./quick/1-refactor-to-static-site-with-baked-in-da/) |
 
 ### Blockers/Concerns
 

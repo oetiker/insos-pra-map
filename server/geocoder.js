@@ -60,32 +60,36 @@ export async function geocodeAddress(street, plzOrt) {
     console.error(`Geocoding failed for "${address}": ${err.message}`);
   }
 
-  // Fallback: PLZ/Ort only (city center)
-  try {
-    const fallbackParams = new URLSearchParams({
-      searchText: plzOrt,
-      type: 'locations',
-      origins: 'zipcode',
-      sr: '4326',
-      limit: '1'
-    });
-
-    const fallbackResponse = await fetch(`${GEO_API}?${fallbackParams}`);
-    if (fallbackResponse.ok) {
-      const fallbackJson = await fallbackResponse.json();
-      if (fallbackJson.results && fallbackJson.results.length > 0) {
-        const attrs = fallbackJson.results[0].attrs;
-        const lat = attrs.lat;
-        const lon = attrs.lon;
-        setCachedGeocode(address, lat, lon, true);
-        return { lat, lon, approximate: true };
+  // Fallback: PLZ/Ort only (city center) — try zipcode origin first, then general location
+  for (const origins of ['zipcode', undefined]) {
+    try {
+      const fallbackParams = new URLSearchParams({
+        searchText: plzOrt,
+        type: 'locations',
+        sr: '4326',
+        limit: '1'
+      });
+      if (origins) {
+        fallbackParams.set('origins', origins);
       }
+
+      const fallbackResponse = await fetch(`${GEO_API}?${fallbackParams}`);
+      if (fallbackResponse.ok) {
+        const fallbackJson = await fallbackResponse.json();
+        if (fallbackJson.results && fallbackJson.results.length > 0) {
+          const attrs = fallbackJson.results[0].attrs;
+          const lat = attrs.lat;
+          const lon = attrs.lon;
+          setCachedGeocode(address, lat, lon, true);
+          return { lat, lon, approximate: true };
+        }
+      }
+    } catch (err) {
+      console.error(`Fallback geocoding failed for "${plzOrt}" (origins=${origins || 'any'}): ${err.message}`);
     }
-  } catch (err) {
-    console.error(`Fallback geocoding failed for "${plzOrt}": ${err.message}`);
   }
 
-  // Both failed — provider will have null coordinates
+  // All attempts failed — provider will have null coordinates
   console.warn(`Could not geocode: "${address}"`);
   return null;
 }

@@ -19,19 +19,20 @@ Progress: [##........] 20%
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 5min
-- Total execution time: 0.15 hours
+- Total plans completed: 3
+- Average duration: 4min
+- Total execution time: 0.20 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-data-pipeline | 2/2 | 9min | 5min |
+| quick | 1/1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min), 01-02 (6min)
-- Trend: Starting
+- Last 5 plans: 01-01 (3min), 01-02 (6min), quick-1 (3min)
+- Trend: Consistent
 
 *Updated after each plan completion*
 
@@ -46,12 +47,13 @@ Recent decisions affecting current work:
 - OpenStreetMap tiles via SOSM (not Google Maps or Mapbox)
 - Vanilla JS + Vite + Leaflet + Tailwind stack
 - Client-side filtering (all data loaded once, filtered in-memory)
-- Express 5.x used (latest stable) -- SPA fallback adapted to middleware pattern
+- ~~Express 5.x used (latest stable) -- SPA fallback adapted to middleware pattern~~ SUPERSEDED: Express removed, static site only
 - Vite root set to src/ with build output to dist/
 - OData client uses stale-on-error pattern for resilience
 - geo.admin.ch geocoder with fallback to general location search when zipcode origin fails
 - Seed data committed to repo (365 providers) for instant cold starts
 - Three-layer caching: OData in-memory, SQLite geocode, in-memory result cache
+- [Phase quick-1]: Use Vite public directory for static JSON, BASE_URL for deployment-agnostic fetches, GitHub Actions for weekly rebuild
 
 ### Pending Todos
 
@@ -66,5 +68,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Phase 1 verified and complete — ready for Phase 2 planning
+Stopped at: Completed quick-1: static site refactor with baked-in data
 Resume file: None

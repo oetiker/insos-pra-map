@@ -2,7 +2,7 @@
 
 ## Overview
 
-This roadmap delivers an interactive map of PrA training providers in Switzerland, sourced live from the INSOS member directory. The critical path starts with reverse-engineering the INSOS data endpoint and building a self-hosted proxy (Phase 1), then renders providers on an OpenStreetMap-based map with clustering (Phase 2), adds clickable provider detail popups (Phase 3), layers on sector/profession filtering (Phase 4), and finishes with responsive layout, German plain language polish, and shareable URLs (Phase 5).
+This roadmap delivers an interactive map of PrA training providers in Switzerland, with data from the INSOS member directory baked into a static site and rebuilt weekly via GitHub Actions. The critical path starts with the data pipeline and build-time data generation (Phase 1), then renders providers on an OpenStreetMap-based map with clustering (Phase 2), adds clickable provider detail popups (Phase 3), layers on sector/profession filtering (Phase 4), and finishes with responsive layout, German plain language polish, and shareable URLs (Phase 5).
 
 ## Phases
 
@@ -12,7 +12,7 @@ This roadmap delivers an interactive map of PrA training providers in Switzerlan
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build self-hosted proxy, geocode, cache
+- [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build-time data generation, geocode, static JSON
 - [ ] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
 - [ ] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
 - [ ] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
@@ -21,15 +21,17 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Data Pipeline
-**Goal**: INSOS member data flows reliably from their directory through a self-hosted proxy into the browser, with coordinates ready for mapping
+**Goal**: INSOS member data is fetched at build time, geocoded, and baked into a static JSON file that the frontend loads directly
 **Depends on**: Nothing (first phase)
 **Requirements**: DATA-01, DATA-02, DATA-03, DATA-04
-**Success Criteria** (what must be TRUE):
-  1. App fetches live INSOS member data and displays raw provider count in the browser console
-  2. A self-hosted CORS proxy forwards requests to INSOS and returns data with proper CORS headers
-  3. Proxy caches responses for at least 1 hour so repeated requests do not hit INSOS
-  4. Every provider record includes valid WGS84 latitude/longitude coordinates (geocoded if source data lacks them)
+**Architecture note**: Originally built with a live Express proxy; pivoted to static site with build-time data generation (see quick task 1).
+**Success Criteria** (what was verified):
+  1. Build-time script fetches INSOS member data and generates static providers.json
+  2. Every provider record includes valid WGS84 latitude/longitude coordinates (geocoded via geo.admin.ch)
+  3. Geocode cache persists in SQLite so rebuilds don't re-geocode known addresses
+  4. Frontend loads static JSON and displays provider count
   5. Project scaffold (Vite + Leaflet + Tailwind) builds and serves locally
+  6. GitHub Actions workflow rebuilds weekly on cron + manual trigger
 **Plans**: 2 plans
 
 Plans:

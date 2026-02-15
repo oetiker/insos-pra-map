@@ -21,7 +21,7 @@ A person looking for a PrA training spot can quickly find which INSOS members ne
 - [ ] Pin popup showing organization name, address, phone, email, website
 - [ ] Pin popup showing all PrA offerings for that member
 - [ ] Pin popup with direct link to member's INSOS page
-- [ ] Live data from INSOS website — reverse-engineer or proxy their member directory API
+- [ ] Data from INSOS website — fetched at build time, baked into static site, rebuilt weekly via GitHub Actions
 - [ ] Pin clustering for dense areas
 - [ ] German-language interface
 
@@ -44,15 +44,15 @@ Target users are people seeking PrA training placements: school leavers with lea
 ## Constraints
 
 - **Data source**: Must work with INSOS's existing data — no control over their backend or data format
-- **CORS**: If INSOS API doesn't allow cross-origin requests, a lightweight proxy will be needed
-- **Data accuracy**: Dependent on INSOS keeping their directory current
+- **Static site**: All provider data is baked into the frontend at build time; a GitHub Actions cron job rebuilds weekly
+- **Data accuracy**: Dependent on INSOS keeping their directory current; data is at most 1 week old
 - **No official API**: Data access is via reverse-engineering their frontend's data loading, which could break if they redesign
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Live data over local copy | User wants current data without manual maintenance | — Pending |
+| Static site with weekly rebuild | Data baked at build time via GitHub Actions cron, no runtime server | Decided |
 | Geographic map with pins (not SVG outline) | Better for finding specific locations, familiar UX | — Pending |
 | Category-first filtering (sector → profession) | 90+ professions too many for flat list, sectors group naturally | — Pending |
 | German only | Matches INSOS German content, simplifies v1 | — Pending |

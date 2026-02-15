@@ -43,17 +43,14 @@ Progress: [##........] 20%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Self-hosted CORS proxy (not Cloudflare Workers)
+- **Static site architecture** — no runtime server; data baked into frontend at build time, rebuilt weekly via GitHub Actions
 - OpenStreetMap tiles via SOSM (not Google Maps or Mapbox)
 - Vanilla JS + Vite + Leaflet + Tailwind stack
-- Client-side filtering (all data loaded once, filtered in-memory)
-- ~~Express 5.x used (latest stable) -- SPA fallback adapted to middleware pattern~~ SUPERSEDED: Express removed, static site only
-- Vite root set to src/ with build output to dist/
-- OData client uses stale-on-error pattern for resilience
-- geo.admin.ch geocoder with fallback to general location search when zipcode origin fails
-- Seed data committed to repo (365 providers) for instant cold starts
-- Three-layer caching: OData in-memory, SQLite geocode, in-memory result cache
-- [Phase quick-1]: Use Vite public directory for static JSON, BASE_URL for deployment-agnostic fetches, GitHub Actions for weekly rebuild
+- Client-side filtering (all data loaded once from static JSON, filtered in-memory)
+- Vite root set to src/ with build output to dist/, base: '/insos-map/' for GitHub Pages
+- Build-time OData fetch from performx.artiset.ch with seed data fallback
+- geo.admin.ch geocoder with SQLite cache (persists across rebuilds)
+- GitHub Actions cron (weekly Monday 6am UTC) + manual trigger for rebuild and deploy
 
 ### Pending Todos
 

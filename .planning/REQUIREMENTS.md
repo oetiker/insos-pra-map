@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data Integration
 
-- [ ] **DATA-01**: User can view up-to-date member data sourced live from the INSOS directory
-- [ ] **DATA-02**: App accesses INSOS data via a self-hosted CORS proxy (no third-party proxy services)
+- [ ] **DATA-01**: User can view member data sourced from the INSOS directory, refreshed weekly via automated rebuild
+- [ ] **DATA-02**: App serves pre-built static data (no runtime server); a build-time script fetches from INSOS OData API
 - [ ] **DATA-03**: Member addresses are geocoded to map coordinates if source data lacks lat/lng
-- [ ] **DATA-04**: Data responses are cached (minimum 1-hour TTL) to protect INSOS from excessive requests
+- [ ] **DATA-04**: Data is regenerated weekly via GitHub Actions cron; no excessive requests to INSOS
 
 ### Map
 
@@ -75,7 +75,7 @@ Explicitly excluded. Documented to prevent scope creep.
 | Admin CMS / data editing | Read-only consumer of INSOS data |
 | Chat/messaging with providers | Providers have phone and email |
 | Mobile native app | Responsive web is sufficient |
-| Cloudflare Workers | Self-hosted proxy preferred |
+| Runtime server / proxy | Static site with build-time data pipeline, no server needed |
 
 ## Traceability
 
@@ -83,10 +83,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Done (weekly rebuild via GitHub Actions) |
+| DATA-02 | Phase 1 | Done (build-time script, no runtime server) |
+| DATA-03 | Phase 1 | Done (365 providers geocoded via geo.admin.ch) |
+| DATA-04 | Phase 1 | Done (weekly cron, SQLite geocode cache) |
 | MAP-01 | Phase 2 | Pending |
 | MAP-02 | Phase 2 | Pending |
 | MAP-03 | Phase 2 | Pending |

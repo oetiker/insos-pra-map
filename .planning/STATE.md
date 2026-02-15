@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-14)
 
 **Core value:** A person looking for a PrA training spot can quickly find which INSOS members near them offer the profession they're interested in.
-**Current focus:** Phase 5 in progress — polish and shareability
+**Current focus:** All phases complete
 
 ## Current Position
 
 Phase: 5 of 5 (Polish & Shareability)
-Plan: 1 of 2 in current phase -- COMPLETE
-Status: Executing
-Last activity: 2026-02-15 -- Completed 05-01: German labels and Einfache Sprache
+Plan: 2 of 2 in current phase -- COMPLETE
+Status: Complete
+Last activity: 2026-02-15 -- Completed 05-02: URL hash state for shareable URLs
 
-Progress: [#########.] 90%
+Progress: [##########] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 3min
-- Total execution time: 0.34 hours
+- Total execution time: 0.36 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [#########.] 90%
 | 02-interactive-map | 1/1 | 2min | 2min |
 | 03-provider-details | 1/1 | 2min | 2min |
 | 04-filtering | 1/1 | 3min | 3min |
-| 05-polish-shareability | 1/2 | 1min | 1min |
+| 05-polish-shareability | 2/2 | 2min | 1min |
 | quick | 1/1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (2min), 03-01 (2min), 04-01 (3min), 05-01 (1min)
+- Last 5 plans: 02-01 (2min), 03-01 (2min), 04-01 (3min), 05-01 (1min), 05-02 (1min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - 14 PrA sectors derived from profession name prefixes via startsWith matching (data-driven dropdown)
 - Catch-all "Weitere Berufe" sector for future unmapped professions (currently none unmapped)
 - Filter control exposes sectorSelect/profSelect on instance for programmatic state restoration (Plan 05-02)
+- Short hash keys (s, p, lat, lng, z) for compact shareable URLs
+- replaceState (not pushState) to avoid history pollution from map panning
+- No hashchange listener needed -- avoids circular event loops
 
 ### Pending Todos
 
@@ -84,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Completed 05-01-PLAN.md: German labels and Einfache Sprache for filter control
+Stopped at: Completed 05-02-PLAN.md: URL hash state for shareable URLs -- ALL PHASES COMPLETE
 Resume file: None

@@ -12,16 +12,16 @@ See: .planning/PROJECT.md (updated 2026-02-14)
 Phase: 5 of 5 (Polish & Shareability)
 Plan: 2 of 2 in current phase -- COMPLETE
 Status: Complete
-Last activity: 2026-02-15 -- Completed 05-02: URL hash state for shareable URLs
+Last activity: 2026-02-15 -- Completed quick-2: Shareable popup state in URL hash and scrollable popups
 
 Progress: [##########] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 3min
-- Total execution time: 0.36 hours
+- Total execution time: 0.39 hours
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [##########] 100%
 | 03-provider-details | 1/1 | 2min | 2min |
 | 04-filtering | 1/1 | 3min | 3min |
 | 05-polish-shareability | 2/2 | 2min | 1min |
-| quick | 1/1 | 3min | 3min |
+| quick | 2/2 | 5min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (2min), 03-01 (2min), 04-01 (3min), 05-01 (1min), 05-02 (1min)
+- Last 5 plans: 03-01 (2min), 04-01 (3min), 05-01 (1min), 05-02 (1min), quick-2 (2min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -67,6 +67,9 @@ Recent decisions affecting current work:
 - Short hash keys (s, p, lat, lng, z) for compact shareable URLs
 - replaceState (not pushState) to avoid history pollution from map panning
 - No hashchange listener needed -- avoids circular event loops
+- `pid` key in URL hash for provider ID (consistent with existing short keys)
+- Popup maxHeight 300px for viewport-constrained scrollable popups
+- zoomToShowLayer with 200ms delay for popup restoration after cluster layer settles
 
 ### Pending Todos
 
@@ -77,6 +80,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 1 | Refactor to static site with baked-in data and GitHub Actions weekly rebuild | 2026-02-14 | 2742078 | [1-refactor-to-static-site-with-baked-in-da](./quick/1-refactor-to-static-site-with-baked-in-da/) |
+| 2 | Shareable popup state in URL hash and scrollable popups | 2026-02-15 | 847a13b | [2-shareable-popup-state-in-url-hash-and-sc](./quick/2-shareable-popup-state-in-url-hash-and-sc/) |
 
 ### Blockers/Concerns
 
@@ -87,5 +91,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Completed 05-02-PLAN.md: URL hash state for shareable URLs -- ALL PHASES COMPLETE
+Stopped at: Completed quick-2: Shareable popup state in URL hash and scrollable popups
 Resume file: None

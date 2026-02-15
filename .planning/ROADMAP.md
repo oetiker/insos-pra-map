@@ -60,10 +60,10 @@ Plans:
   1. Clicking a provider pin opens a popup showing organization name, address, phone number, email, and website
   2. The popup includes a clickable link that opens the provider's INSOS member page
   3. Popup displays correctly without overflow or truncation on both desktop and mobile viewports
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Fetch contact data from Kommunikationsmittel OData entity and build rich popup with provider details and INSOS link
 
 ### Phase 4: Filtering
 **Goal**: Users find PrA providers by selecting a training sector and drilling down to a specific profession

@@ -1,6 +1,6 @@
 // INSOS PrA Map - Frontend entry point
 import './style.css';
-import { initMap, updateMarkers } from './map.js';
+import { initMap, updateMarkers, findMarkerByProviderId } from './map.js';
 import { createFilterControl, filterProviders } from './filters.js';
 import { readHash, writeHash } from './hash-state.js';
 
@@ -24,16 +24,18 @@ async function init() {
     const hashState = readHash();
     let currentSector = hashState?.sector || '';
     let currentProfession = hashState?.profession || '';
+    let currentPid = hashState?.pid || '';
 
     // Filter change handler: update markers, hash, and show/hide no-results overlay
     const onFilterChange = (sector, profession) => {
       const filtered = filterProviders(data.providers, sector, profession);
       const count = updateMarkers(clusters, filtered, sector, profession);
 
-      // Update tracking vars and URL hash
+      // Update tracking vars and URL hash (filter change clears popup state)
       currentSector = sector;
       currentProfession = profession;
-      writeHash(sector, profession, map);
+      currentPid = '';
+      writeHash(sector, profession, map, '');
 
       // Show/hide "no results" message
       let overlay = document.getElementById('no-results');
@@ -70,16 +72,42 @@ async function init() {
       if (!isNaN(hashState.lat) && !isNaN(hashState.lng) && !isNaN(hashState.z)) {
         map.setView([hashState.lat, hashState.lng], hashState.z);
       }
+      // Restore popup for shared URL (after cluster layer settles)
+      if (hashState.pid) {
+        setTimeout(() => {
+          const marker = findMarkerByProviderId(clusters, hashState.pid);
+          if (marker) {
+            clusters.zoomToShowLayer(marker, () => {
+              marker.openPopup();
+            });
+          }
+        }, 200);
+      }
     } else {
       // Write initial state so URL is immediately shareable
       map.once('moveend', () => {
-        writeHash('', '', map);
+        writeHash('', '', map, '');
       });
     }
 
+    // Update hash when popup opens (store provider ID)
+    map.on('popupopen', (e) => {
+      const marker = e.popup._source;
+      if (marker && marker._providerId) {
+        currentPid = marker._providerId;
+        writeHash(currentSector, currentProfession, map, currentPid);
+      }
+    });
+
+    // Update hash when popup closes (clear provider ID)
+    map.on('popupclose', () => {
+      currentPid = '';
+      writeHash(currentSector, currentProfession, map, currentPid);
+    });
+
     // Update hash on map pan/zoom
     map.on('moveend', () => {
-      writeHash(currentSector, currentProfession, map);
+      writeHash(currentSector, currentProfession, map, currentPid);
     });
   } catch (err) {
     console.error('Failed to load providers:', err);

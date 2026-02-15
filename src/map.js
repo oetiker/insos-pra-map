@@ -101,6 +101,8 @@ export function updateMarkers(clusters, providers, sector, profession) {
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
       const marker = L.marker([provider.lat, provider.lon]);
+      marker._providerId = provider.id;
+      marker._provider = provider;
       marker.bindPopup(buildPopupContent(provider, sector, profession));
       markers.push(marker);
     }
@@ -150,6 +152,8 @@ export function initMap(containerId, providers) {
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
       const marker = L.marker([provider.lat, provider.lon]);
+      marker._providerId = provider.id;
+      marker._provider = provider;
       marker.bindPopup(buildPopupContent(provider, '', ''));
       clusters.addLayer(marker);
       markerCount++;
@@ -160,4 +164,21 @@ export function initMap(containerId, providers) {
   console.log(`Map initialized: ${markerCount} markers plotted`);
 
   return { map, clusters };
+}
+
+/**
+ * Find a marker in the cluster group by provider ID.
+ * Supports exact match or prefix matching (if pid is shorter than 36 chars).
+ * @param {L.MarkerClusterGroup} clusters
+ * @param {string} pid - Provider ID (or prefix)
+ * @returns {L.Marker|null}
+ */
+export function findMarkerByProviderId(clusters, pid) {
+  if (!pid) return null;
+  const layers = clusters.getLayers();
+  for (const marker of layers) {
+    if (marker._providerId === pid) return marker;
+    if (pid.length < 36 && marker._providerId && marker._providerId.startsWith(pid)) return marker;
+  }
+  return null;
 }

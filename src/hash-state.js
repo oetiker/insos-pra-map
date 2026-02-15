@@ -2,12 +2,13 @@
 
 /**
  * Write current app state to URL hash without creating a history entry.
- * Uses short keys (s, p, lat, lng, z) to keep URLs compact.
+ * Uses short keys (s, p, lat, lng, z, pid) to keep URLs compact.
  * @param {string} sector - Current sector filter value (empty string = all)
  * @param {string} profession - Current profession filter value (empty string = all)
  * @param {L.Map} map - Leaflet map instance
+ * @param {string} [pid=''] - Provider ID for open popup (empty string = none)
  */
-export function writeHash(sector, profession, map) {
+export function writeHash(sector, profession, map, pid = '') {
   const p = new URLSearchParams();
   if (sector) p.set('s', sector);
   if (profession) p.set('p', profession);
@@ -15,12 +16,13 @@ export function writeHash(sector, profession, map) {
   p.set('lat', c.lat.toFixed(4));
   p.set('lng', c.lng.toFixed(4));
   p.set('z', String(map.getZoom()));
+  if (pid) p.set('pid', pid);
   history.replaceState(null, '', '#' + p.toString());
 }
 
 /**
  * Read app state from URL hash. Returns null if no hash present.
- * @returns {{ sector: string, profession: string, lat: number, lng: number, z: number } | null}
+ * @returns {{ sector: string, profession: string, lat: number, lng: number, z: number, pid: string } | null}
  */
 export function readHash() {
   const raw = location.hash.slice(1);
@@ -31,6 +33,7 @@ export function readHash() {
     profession: p.get('p') || '',
     lat: p.has('lat') ? parseFloat(p.get('lat')) : NaN,
     lng: p.has('lng') ? parseFloat(p.get('lng')) : NaN,
-    z: p.has('z') ? parseInt(p.get('z'), 10) : NaN
+    z: p.has('z') ? parseInt(p.get('z'), 10) : NaN,
+    pid: p.get('pid') || ''
   };
 }

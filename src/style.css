@@ -6,3 +6,31 @@ html, body {
   padding: 0;
   height: 100%;
 }
+
+/* Provider popup styling */
+.provider-popup {
+  font-size: 14px;
+  line-height: 1.4;
+}
+.provider-popup strong {
+  font-size: 15px;
+  display: block;
+  margin-bottom: 4px;
+}
+.provider-popup-address {
+  color: #555;
+  margin: 4px 0;
+}
+.provider-popup p {
+  margin: 2px 0;
+}
+.provider-popup a {
+  color: #0066cc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.provider-popup-insos {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #eee;
+}

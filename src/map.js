@@ -17,6 +17,44 @@ L.Icon.Default.prototype.options.iconRetinaUrl = markerIcon2x;
 L.Icon.Default.prototype.options.shadowUrl = markerShadow;
 L.Icon.Default.imagePath = '';
 
+// INSOS member directory URL (no per-provider deep link available)
+const INSOS_URL = 'https://www.insos.ch/de/ueber-uns#unsere-mitglieder-268211';
+
+/**
+ * HTML-escape a string to prevent XSS from external provider data.
+ * Returns empty string for falsy input.
+ */
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/**
+ * Build HTML content for a provider popup.
+ * Conditionally renders phone, email, website only when present.
+ */
+function buildPopupContent(provider) {
+  let html = '<div class="provider-popup">';
+  html += `<strong>${esc(provider.name)}</strong>`;
+  html += `<p class="provider-popup-address">${esc(provider.street)}<br>${esc(provider.plzOrt)}</p>`;
+
+  if (provider.phone) {
+    html += `<p><a href="tel:${esc(provider.phone)}">${esc(provider.phone)}</a></p>`;
+  }
+  if (provider.email) {
+    html += `<p><a href="mailto:${esc(provider.email)}">${esc(provider.email)}</a></p>`;
+  }
+  if (provider.website) {
+    const display = provider.website.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    html += `<p><a href="${esc(provider.website)}" target="_blank" rel="noopener">${esc(display)}</a></p>`;
+  }
+
+  html += `<p class="provider-popup-insos"><a href="${INSOS_URL}" target="_blank" rel="noopener">INSOS Mitgliederverzeichnis</a></p>`;
+  html += '</div>';
+  return html;
+}
+
 // Switzerland bounds (covers all 365 provider locations with padding)
 const SWISS_BOUNDS = L.latLngBounds(
   [45.7, 5.9],   // Southwest
@@ -57,7 +95,7 @@ export function initMap(containerId, providers) {
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
       const marker = L.marker([provider.lat, provider.lon]);
-      marker.bindPopup(`<strong>${provider.name}</strong>`);
+      marker.bindPopup(buildPopupContent(provider));
       clusters.addLayer(marker);
       markerCount++;
     }

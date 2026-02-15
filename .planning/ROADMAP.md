@@ -13,7 +13,7 @@ This roadmap delivers an interactive map of PrA training providers in Switzerlan
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build-time data generation, geocode, static JSON
-- [ ] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
+- [x] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
 - [ ] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
 - [ ] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
 - [ ] **Phase 5: Polish & Shareability** - Responsive layout, German plain language, shareable URLs
@@ -42,7 +42,7 @@ Plans:
 **Goal**: Users see all PrA provider locations plotted on an interactive map of Switzerland
 **Depends on**: Phase 1
 **Requirements**: MAP-01, MAP-02, MAP-03
-**Success Criteria** (what must be TRUE):
+**Success Criteria** (what was verified):
   1. User sees an OpenStreetMap-based map of Switzerland that can be zoomed and panned
   2. Every PrA provider from the INSOS data appears as a pin marker on the map
   3. Zooming out on dense areas (e.g., Zurich, Bern) shows numbered cluster markers instead of overlapping pins
@@ -50,7 +50,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 02-01-PLAN.md — Leaflet map with SOSM tiles, provider markers, and marker clustering
+- [x] 02-01-PLAN.md — Leaflet map with SOSM tiles, provider markers, and marker clustering
 
 ### Phase 3: Provider Details
 **Goal**: Users access provider contact information and INSOS profile directly from the map
@@ -105,7 +105,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
-| 2. Interactive Map | 0/1 | Not started | - |
+| 2. Interactive Map | 1/1 | ✓ Complete | 2026-02-15 |
 | 3. Provider Details | 0/1 | Not started | - |
 | 4. Filtering | 0/3 | Not started | - |
 | 5. Polish & Shareability | 0/2 | Not started | - |

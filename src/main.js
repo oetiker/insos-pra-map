@@ -4,6 +4,11 @@ import { initMap, updateMarkers } from './map.js';
 import { createFilterControl, filterProviders } from './filters.js';
 import { readHash, writeHash } from './hash-state.js';
 
+document.getElementById('commit-date').textContent =
+  new Date(__COMMIT_DATE__).toLocaleDateString('de-CH');
+document.getElementById('build-date').textContent =
+  new Date(__BUILD_DATE__).toLocaleDateString('de-CH');
+
 async function init() {
   try {
     const dataUrl = import.meta.env.BASE_URL + 'data/providers.json';

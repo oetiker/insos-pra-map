@@ -23,7 +23,7 @@ async function init() {
     // Filter change handler: update markers, hash, and show/hide no-results overlay
     const onFilterChange = (sector, profession) => {
       const filtered = filterProviders(data.providers, sector, profession);
-      const count = updateMarkers(clusters, filtered);
+      const count = updateMarkers(clusters, filtered, sector, profession);
 
       // Update tracking vars and URL hash
       currentSector = sector;

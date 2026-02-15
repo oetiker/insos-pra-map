@@ -65,7 +65,7 @@ const SECTOR_MAP = {
  * @param {string} profName - Full profession name (e.g., "PrA Küche")
  * @returns {string|null} Sector name or null if unmapped
  */
-function findSector(profName) {
+export function findSector(profName) {
   const stripped = profName.replace('PrA ', '');
   for (const [sector, prefixes] of Object.entries(SECTOR_MAP)) {
     if (prefixes.some(p => stripped.startsWith(p))) {

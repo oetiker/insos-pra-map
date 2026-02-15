@@ -12,13 +12,12 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+import { findSector } from './filters.js';
+
 L.Icon.Default.prototype.options.iconUrl = markerIcon;
 L.Icon.Default.prototype.options.iconRetinaUrl = markerIcon2x;
 L.Icon.Default.prototype.options.shadowUrl = markerShadow;
 L.Icon.Default.imagePath = '';
-
-// INSOS member directory URL (no per-provider deep link available)
-const INSOS_URL = 'https://www.insos.ch/de/ueber-uns#unsere-mitglieder-268211';
 
 /**
  * HTML-escape a string to prevent XSS from external provider data.
@@ -32,12 +31,45 @@ function esc(str) {
 
 /**
  * Build HTML content for a provider popup.
- * Conditionally renders phone, email, website only when present.
+ * Shows professions context-aware based on current filter state.
+ * @param {Object} provider
+ * @param {string} sector - Current sector filter (empty = all)
+ * @param {string} profession - Current profession filter (empty = all in sector)
  */
-export function buildPopupContent(provider) {
+export function buildPopupContent(provider, sector, profession) {
   let html = '<div class="provider-popup">';
   html += `<strong>${esc(provider.name)}</strong>`;
   html += `<p class="provider-popup-address">${esc(provider.street)}<br>${esc(provider.plzOrt)}</p>`;
+
+  // Profession section (context-aware)
+  if (sector && profession) {
+    // User filtered to a specific Beruf — skip profession list
+  } else if (sector && !profession) {
+    // User filtered to a sector — show matching professions in that sector
+    const matching = provider.praOfferings
+      .filter(o => findSector(o.name) === sector || (sector === 'Weitere Berufe' && findSector(o.name) === null))
+      .map(o => o.name.replace('PrA ', ''));
+    if (matching.length > 0) {
+      html += `<p class="popup-berufe">${matching.map(m => esc(m)).join(', ')}</p>`;
+    }
+  } else if (!sector) {
+    // No filter — group all offerings by sector
+    const grouped = {};
+    for (const o of provider.praOfferings) {
+      const s = findSector(o.name) || 'Weitere Berufe';
+      if (!grouped[s]) grouped[s] = [];
+      grouped[s].push(o.name.replace('PrA ', ''));
+    }
+    const sortedSectors = Object.keys(grouped).sort((a, b) => a.localeCompare(b, 'de'));
+    if (sortedSectors.length > 0) {
+      let berufeHtml = '';
+      for (const s of sortedSectors) {
+        berufeHtml += `<div class="popup-sector-heading">${esc(s)}</div>`;
+        berufeHtml += `<div>${grouped[s].map(p => esc(p)).join(', ')}</div>`;
+      }
+      html += `<div class="popup-berufe">${berufeHtml}</div>`;
+    }
+  }
 
   if (provider.phone) {
     html += `<p><a href="tel:${esc(provider.phone)}">${esc(provider.phone)}</a></p>`;
@@ -50,7 +82,6 @@ export function buildPopupContent(provider) {
     html += `<p><a href="${esc(provider.website)}" target="_blank" rel="noopener">${esc(display)}</a></p>`;
   }
 
-  html += `<p class="provider-popup-insos"><a href="${INSOS_URL}" target="_blank" rel="noopener">INSOS Mitgliederverzeichnis</a></p>`;
   html += '</div>';
   return html;
 }
@@ -59,16 +90,18 @@ export function buildPopupContent(provider) {
  * Replace all markers in the cluster group with markers for the given providers.
  * @param {L.MarkerClusterGroup} clusters
  * @param {Array} providers - filtered provider array
+ * @param {string} sector - current sector filter
+ * @param {string} profession - current profession filter
  * @returns {number} Number of markers added
  */
-export function updateMarkers(clusters, providers) {
+export function updateMarkers(clusters, providers, sector, profession) {
   clusters.clearLayers();
 
   const markers = [];
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
       const marker = L.marker([provider.lat, provider.lon]);
-      marker.bindPopup(buildPopupContent(provider));
+      marker.bindPopup(buildPopupContent(provider, sector, profession));
       markers.push(marker);
     }
   }
@@ -117,7 +150,7 @@ export function initMap(containerId, providers) {
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
       const marker = L.marker([provider.lat, provider.lon]);
-      marker.bindPopup(buildPopupContent(provider));
+      marker.bindPopup(buildPopupContent(provider, '', ''));
       clusters.addLayer(marker);
       markerCount++;
     }

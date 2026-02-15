@@ -1,10 +1,50 @@
 @import "tailwindcss";
 
-/* Ensure map fills viewport */
+/* Flexbox layout: title, map, footer */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Red title bar at top */
+.site-title {
+  background: #c00;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 16px;
+  text-align: center;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+/* Map fills remaining space */
+#map {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Footer bar at bottom */
+.site-footer {
+  background: #f5f5f5;
+  border-top: 1px solid #ddd;
+  color: #666;
+  font-size: 12px;
+  padding: 6px 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.site-footer a {
+  color: #0066cc;
+  text-decoration: none;
+}
+.site-footer a:hover {
+  text-decoration: underline;
 }
 
 /* Provider popup styling */
@@ -29,10 +69,23 @@ html, body {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
-.provider-popup-insos {
-  margin-top: 8px;
-  padding-top: 6px;
+
+/* Popup profession list */
+.popup-berufe {
+  font-size: 12px;
+  color: #444;
+  margin: 6px 0;
+  padding: 4px 0;
   border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.popup-sector-heading {
+  font-weight: 600;
+  margin-top: 4px;
+  color: #333;
+}
+.popup-sector-heading:first-child {
+  margin-top: 0;
 }
 
 /* Filter control panel */

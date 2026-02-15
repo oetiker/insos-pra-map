@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+/* Ensure map fills viewport */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}

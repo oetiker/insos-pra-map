@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build-time data generation, geocode, static JSON
 - [x] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
-- [ ] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
+- [x] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
 - [ ] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
 - [ ] **Phase 5: Polish & Shareability** - Responsive layout, German plain language, shareable URLs
 
@@ -56,14 +56,14 @@ Plans:
 **Goal**: Users access provider contact information and INSOS profile directly from the map
 **Depends on**: Phase 2
 **Requirements**: PROV-01, PROV-02
-**Success Criteria** (what must be TRUE):
+**Success Criteria** (what was verified):
   1. Clicking a provider pin opens a popup showing organization name, address, phone number, email, and website
   2. The popup includes a clickable link that opens the provider's INSOS member page
   3. Popup displays correctly without overflow or truncation on both desktop and mobile viewports
 **Plans**: 1 plan
 
 Plans:
-- [ ] 03-01-PLAN.md — Fetch contact data from Kommunikationsmittel OData entity and build rich popup with provider details and INSOS link
+- [x] 03-01-PLAN.md — Fetch contact data from Kommunikationsmittel OData entity and build rich popup with provider details and INSOS link
 
 ### Phase 4: Filtering
 **Goal**: Users find PrA providers by selecting a training sector and drilling down to a specific profession
@@ -106,6 +106,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|---------------|--------|-----------|
 | 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
 | 2. Interactive Map | 1/1 | ✓ Complete | 2026-02-15 |
-| 3. Provider Details | 0/1 | Not started | - |
+| 3. Provider Details | 1/1 | ✓ Complete | 2026-02-15 |
 | 4. Filtering | 0/3 | Not started | - |
 | 5. Polish & Shareability | 0/2 | Not started | - |

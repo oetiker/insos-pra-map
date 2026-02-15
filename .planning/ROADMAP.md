@@ -47,11 +47,10 @@ Plans:
   2. Every PrA provider from the INSOS data appears as a pin marker on the map
   3. Zooming out on dense areas (e.g., Zurich, Bern) shows numbered cluster markers instead of overlapping pins
   4. Clicking a cluster zooms in to reveal individual provider pins
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Leaflet map with SOSM tiles, provider markers, and marker clustering
 
 ### Phase 3: Provider Details
 **Goal**: Users access provider contact information and INSOS profile directly from the map
@@ -106,7 +105,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
-| 2. Interactive Map | 0/2 | Not started | - |
+| 2. Interactive Map | 0/1 | Not started | - |
 | 3. Provider Details | 0/1 | Not started | - |
 | 4. Filtering | 0/3 | Not started | - |
 | 5. Polish & Shareability | 0/2 | Not started | - |

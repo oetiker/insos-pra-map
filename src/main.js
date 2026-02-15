@@ -1,6 +1,7 @@
 // INSOS PrA Map - Frontend entry point
 import './style.css';
-import { initMap } from './map.js';
+import { initMap, updateMarkers } from './map.js';
+import { createFilterControl, filterProviders } from './filters.js';
 
 async function init() {
   try {
@@ -11,7 +12,30 @@ async function init() {
     console.log(`INSOS PrA Map: ${data.meta.count} providers loaded`);
     console.log(`Data generated at: ${data.meta.generatedAt}`);
 
-    initMap('map', data.providers);
+    const { map, clusters } = initMap('map', data.providers);
+
+    // Filter change handler: update markers and show/hide no-results overlay
+    const onFilterChange = (sector, profession) => {
+      const filtered = filterProviders(data.providers, sector, profession);
+      const count = updateMarkers(clusters, filtered);
+
+      // Show/hide "no results" message
+      let overlay = document.getElementById('no-results');
+      if (count === 0) {
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'no-results';
+          overlay.className = 'no-results-overlay';
+          overlay.textContent = 'Keine Anbieter für diese Auswahl gefunden.';
+          document.getElementById('map').appendChild(overlay);
+        }
+        overlay.style.display = 'flex';
+      } else if (overlay) {
+        overlay.style.display = 'none';
+      }
+    };
+
+    createFilterControl(data.providers, onFilterChange).addTo(map);
   } catch (err) {
     console.error('Failed to load providers:', err);
     const mapEl = document.getElementById('map');

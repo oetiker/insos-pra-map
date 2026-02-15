@@ -34,7 +34,7 @@ function esc(str) {
  * Build HTML content for a provider popup.
  * Conditionally renders phone, email, website only when present.
  */
-function buildPopupContent(provider) {
+export function buildPopupContent(provider) {
   let html = '<div class="provider-popup">';
   html += `<strong>${esc(provider.name)}</strong>`;
   html += `<p class="provider-popup-address">${esc(provider.street)}<br>${esc(provider.plzOrt)}</p>`;
@@ -53,6 +53,28 @@ function buildPopupContent(provider) {
   html += `<p class="provider-popup-insos"><a href="${INSOS_URL}" target="_blank" rel="noopener">INSOS Mitgliederverzeichnis</a></p>`;
   html += '</div>';
   return html;
+}
+
+/**
+ * Replace all markers in the cluster group with markers for the given providers.
+ * @param {L.MarkerClusterGroup} clusters
+ * @param {Array} providers - filtered provider array
+ * @returns {number} Number of markers added
+ */
+export function updateMarkers(clusters, providers) {
+  clusters.clearLayers();
+
+  const markers = [];
+  for (const provider of providers) {
+    if (provider.lat != null && provider.lon != null) {
+      const marker = L.marker([provider.lat, provider.lon]);
+      marker.bindPopup(buildPopupContent(provider));
+      markers.push(marker);
+    }
+  }
+
+  clusters.addLayers(markers);
+  return markers.length;
 }
 
 // Switzerland bounds (covers all 365 provider locations with padding)

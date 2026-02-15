@@ -89,11 +89,11 @@ Plans:
   2. All interface text (labels, buttons, messages, filter options) is in German using Einfache Sprache (plain language)
   3. User can copy the current URL and share it; opening that URL restores the same filter selections and map position
   4. The app loads and is interactive within 3 seconds on a typical mobile connection
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md — Responsive sidebar layout, filter refactor from L.Control to DOM, German Einfache Sprache
+- [ ] 05-02-PLAN.md — URL hash state for shareable filter selections and map position
 
 ## Progress
 

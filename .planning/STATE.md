@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-14)
 
 **Core value:** A person looking for a PrA training spot can quickly find which INSOS members near them offer the profession they're interested in.
-**Current focus:** Phase 4 complete — hierarchical sector/profession filtering
+**Current focus:** Phase 5 in progress — polish and shareability
 
 ## Current Position
 
-Phase: 4 of 5 (Filtering) -- COMPLETE
-Plan: 1 of 1 in current phase
-Status: Phase Complete
-Last activity: 2026-02-15 -- Completed 04-01: Hierarchical sector/profession filter
+Phase: 5 of 5 (Polish & Shareability)
+Plan: 1 of 2 in current phase -- COMPLETE
+Status: Executing
+Last activity: 2026-02-15 -- Completed 05-01: German labels and Einfache Sprache
 
-Progress: [########..] 80%
+Progress: [#########.] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: 3min
-- Total execution time: 0.32 hours
+- Total execution time: 0.34 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [########..] 80%
 | 02-interactive-map | 1/1 | 2min | 2min |
 | 03-provider-details | 1/1 | 2min | 2min |
 | 04-filtering | 1/1 | 3min | 3min |
+| 05-polish-shareability | 1/2 | 1min | 1min |
 | quick | 1/1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: quick-1 (3min), 02-01 (2min), 03-01 (2min), 04-01 (3min)
+- Last 5 plans: 02-01 (2min), 03-01 (2min), 04-01 (3min), 05-01 (1min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -62,6 +63,7 @@ Recent decisions affecting current work:
 - Phone prefers landline (type 1) over mobile (type 2); billing email (type 10) excluded
 - 14 PrA sectors derived from profession name prefixes via startsWith matching (data-driven dropdown)
 - Catch-all "Weitere Berufe" sector for future unmapped professions (currently none unmapped)
+- Filter control exposes sectorSelect/profSelect on instance for programmatic state restoration (Plan 05-02)
 
 ### Pending Todos
 
@@ -82,5 +84,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Completed 04-01-PLAN.md: Hierarchical sector/profession filter with 14 data-driven categories
+Stopped at: Completed 05-01-PLAN.md: German labels and Einfache Sprache for filter control
 Resume file: None

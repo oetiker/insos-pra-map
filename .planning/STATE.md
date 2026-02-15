@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-14)
 
 **Core value:** A person looking for a PrA training spot can quickly find which INSOS members near them offer the profession they're interested in.
-**Current focus:** Phase 3 complete — provider contact details in map popups
+**Current focus:** Phase 4 complete — hierarchical sector/profession filtering
 
 ## Current Position
 
-Phase: 3 of 5 (Provider Details) -- COMPLETE
+Phase: 4 of 5 (Filtering) -- COMPLETE
 Plan: 1 of 1 in current phase
 Status: Phase Complete
-Last activity: 2026-02-15 -- Completed 03-01: Provider contact details popup
+Last activity: 2026-02-15 -- Completed 04-01: Hierarchical sector/profession filter
 
-Progress: [######....] 60%
+Progress: [########..] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 3min
-- Total execution time: 0.27 hours
+- Total execution time: 0.32 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [######....] 60%
 | 01-data-pipeline | 2/2 | 9min | 5min |
 | 02-interactive-map | 1/1 | 2min | 2min |
 | 03-provider-details | 1/1 | 2min | 2min |
+| 04-filtering | 1/1 | 3min | 3min |
 | quick | 1/1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (6min), quick-1 (3min), 02-01 (2min), 03-01 (2min)
+- Last 5 plans: quick-1 (3min), 02-01 (2min), 03-01 (2min), 04-01 (3min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -59,6 +60,8 @@ Recent decisions affecting current work:
 - Kommunikationsmittel fetched in batches of 20 IDs via or-chain OData filter (no $expand, no in operator)
 - INSOS member directory link is a global constant (no per-provider deep link exists in the React SPA widget)
 - Phone prefers landline (type 1) over mobile (type 2); billing email (type 10) excluded
+- 14 PrA sectors derived from profession name prefixes via startsWith matching (data-driven dropdown)
+- Catch-all "Weitere Berufe" sector for future unmapped professions (currently none unmapped)
 
 ### Pending Todos
 
@@ -79,5 +82,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Completed 03-01-PLAN.md: Provider contact details popup with email/phone/website and INSOS link
+Stopped at: Completed 04-01-PLAN.md: Hierarchical sector/profession filter with 14 data-driven categories
 Resume file: None

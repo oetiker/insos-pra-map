@@ -75,12 +75,10 @@ Plans:
   3. Map pins update immediately when filter selections change (no page reload, no visible delay)
   4. When filters match zero providers, user sees a clear German-language message explaining no results were found
   5. Clearing filters restores all providers on the map
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
-- [ ] 04-03: TBD
+- [ ] 04-01-PLAN.md — Sector/profession filter control with hierarchical dropdowns, real-time marker updates, and no-results message
 
 ### Phase 5: Polish & Shareability
 **Goal**: The app is responsive across devices, uses German plain language throughout, and supports shareable URLs
@@ -107,5 +105,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
 | 2. Interactive Map | 1/1 | ✓ Complete | 2026-02-15 |
 | 3. Provider Details | 1/1 | ✓ Complete | 2026-02-15 |
-| 4. Filtering | 0/3 | Not started | - |
+| 4. Filtering | 0/1 | Not started | - |
 | 5. Polish & Shareability | 0/2 | Not started | - |

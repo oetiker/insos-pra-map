@@ -183,7 +183,10 @@ export function createFilterControl(allProviders, onFilterChange) {
       L.DomEvent.disableClickPropagation(container);
       L.DomEvent.disableScrollPropagation(container);
 
-      // Sector dropdown
+      // Sector label and dropdown
+      const sectorLabel = L.DomUtil.create('label', 'filter-label', container);
+      sectorLabel.textContent = 'Bereich';
+
       const sectorSelect = L.DomUtil.create('select', 'filter-select', container);
       sectorSelect.innerHTML = '<option value="">Alle Bereiche</option>';
 
@@ -195,7 +198,11 @@ export function createFilterControl(allProviders, onFilterChange) {
         sectorSelect.appendChild(opt);
       }
 
-      // Profession dropdown (hidden until sector selected)
+      // Profession label and dropdown (hidden until sector selected)
+      const profLabel = L.DomUtil.create('label', 'filter-label', container);
+      profLabel.textContent = 'Beruf';
+      profLabel.style.display = 'none';
+
       const profSelect = L.DomUtil.create('select', 'filter-select', container);
       profSelect.innerHTML = '<option value="">Alle Berufe</option>';
       profSelect.style.display = 'none';
@@ -211,8 +218,10 @@ export function createFilterControl(allProviders, onFilterChange) {
             opt.textContent = prof.replace('PrA ', '');
             profSelect.appendChild(opt);
           }
+          profLabel.style.display = '';
           profSelect.style.display = '';
         } else {
+          profLabel.style.display = 'none';
           profSelect.style.display = 'none';
           profSelect.value = '';
         }
@@ -223,9 +232,16 @@ export function createFilterControl(allProviders, onFilterChange) {
         onFilterChange(sectorSelect.value, profSelect.value);
       });
 
+      // Expose select references for external access (e.g., hash state restoration)
+      this.sectorSelect = sectorSelect;
+      this.profSelect = profSelect;
+
       return container;
     }
   });
 
-  return new FilterControl();
+  const control = new FilterControl();
+  control.sectorSelect = null;
+  control.profSelect = null;
+  return control;
 }

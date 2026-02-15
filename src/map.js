@@ -103,7 +103,7 @@ export function updateMarkers(clusters, providers, sector, profession) {
       const marker = L.marker([provider.lat, provider.lon]);
       marker._providerId = provider.id;
       marker._provider = provider;
-      marker.bindPopup(buildPopupContent(provider, sector, profession));
+      marker.bindPopup(buildPopupContent(provider, sector, profession), { maxHeight: 300 });
       markers.push(marker);
     }
   }
@@ -154,7 +154,7 @@ export function initMap(containerId, providers) {
       const marker = L.marker([provider.lat, provider.lon]);
       marker._providerId = provider.id;
       marker._provider = provider;
-      marker.bindPopup(buildPopupContent(provider, '', ''));
+      marker.bindPopup(buildPopupContent(provider, '', ''), { maxHeight: 300 });
       clusters.addLayer(marker);
       markerCount++;
     }

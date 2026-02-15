@@ -47,6 +47,12 @@ body {
   text-decoration: underline;
 }
 
+/* Popup content scrolling (Leaflet maxHeight creates wrapper, ensure smooth scroll) */
+.leaflet-popup-content {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Provider popup styling */
 .provider-popup {
   font-size: 14px;

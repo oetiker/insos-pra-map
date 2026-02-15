@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Data Pipeline** - Reverse-engineer INSOS endpoint, build-time data generation, geocode, static JSON
 - [x] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
 - [x] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
-- [ ] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
+- [x] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
 - [ ] **Phase 5: Polish & Shareability** - Responsive layout, German plain language, shareable URLs
 
 ## Phase Details
@@ -69,7 +69,7 @@ Plans:
 **Goal**: Users find PrA providers by selecting a training sector and drilling down to a specific profession
 **Depends on**: Phase 3
 **Requirements**: FILT-01, FILT-02, FILT-03, FILT-04
-**Success Criteria** (what must be TRUE):
+**Success Criteria** (what was verified):
   1. User can select from approximately 10 PrA sector categories (e.g., Gastro, Bau, Logistik) and the map shows only providers in that sector
   2. After selecting a sector, user can drill down to a specific PrA profession and the map narrows further
   3. Map pins update immediately when filter selections change (no page reload, no visible delay)
@@ -78,7 +78,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 04-01-PLAN.md — Sector/profession filter control with hierarchical dropdowns, real-time marker updates, and no-results message
+- [x] 04-01-PLAN.md — Sector/profession filter control with hierarchical dropdowns, real-time marker updates, and no-results message
 
 ### Phase 5: Polish & Shareability
 **Goal**: The app is responsive across devices, uses German plain language throughout, and supports shareable URLs
@@ -105,5 +105,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Data Pipeline | 2/2 | ✓ Complete | 2026-02-15 |
 | 2. Interactive Map | 1/1 | ✓ Complete | 2026-02-15 |
 | 3. Provider Details | 1/1 | ✓ Complete | 2026-02-15 |
-| 4. Filtering | 0/1 | Not started | - |
+| 4. Filtering | 1/1 | ✓ Complete | 2026-02-15 |
 | 5. Polish & Shareability | 0/2 | Not started | - |

@@ -85,14 +85,14 @@ Plans:
 **Depends on**: Phase 4
 **Requirements**: FILT-05, UX-01, UX-02
 **Success Criteria** (what must be TRUE):
-  1. On desktop, the layout shows a filter sidebar alongside the map; on mobile, filters collapse and the map fills the screen
+  1. The floating filter control has labeled dropdowns with German labels and works on desktop and mobile
   2. All interface text (labels, buttons, messages, filter options) is in German using Einfache Sprache (plain language)
   3. User can copy the current URL and share it; opening that URL restores the same filter selections and map position
   4. The app loads and is interactive within 3 seconds on a typical mobile connection
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Responsive sidebar layout, filter refactor from L.Control to DOM, German Einfache Sprache
+- [ ] 05-01-PLAN.md — German labels on floating filter control, Einfache Sprache text polish
 - [ ] 05-02-PLAN.md — URL hash state for shareable filter selections and map position
 
 ## Progress

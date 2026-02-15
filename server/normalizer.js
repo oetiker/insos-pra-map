@@ -1,5 +1,6 @@
 // Normalizer: transforms raw OData provider data into clean app schema
 // Joins PrA profession names from the PraktischeAusbildung lookup table
+// Joins Kommunikationsmittel contact data (email, phone, website)
 
 /**
  * Normalize raw OData providers into the app schema.
@@ -47,4 +48,42 @@ export function normalizeProviders(rawProviders, praLookup) {
         email: null
       };
     });
+}
+
+/**
+ * Join Kommunikationsmittel contact data into normalized provider records.
+ * Maps KommunikationstypValue to contact fields:
+ *   0 = email, 1 = phone (landline, preferred), 2 = mobile (fallback),
+ *   3 = website, 10 = billing email (ignored)
+ *
+ * @param {Array} providers - Normalized provider array (mutated in-place)
+ * @param {Array} kommunikationsmittel - Array of { AdresseId, KommunikationstypValue, Wert }
+ * @returns {Array} The same providers array with email, phone, website populated
+ */
+export function joinContactData(providers, kommunikationsmittel) {
+  // Build a map: AdresseId -> array of records for fast lookup
+  const byAdresse = new Map();
+  for (const k of kommunikationsmittel) {
+    if (!byAdresse.has(k.AdresseId)) {
+      byAdresse.set(k.AdresseId, []);
+    }
+    byAdresse.get(k.AdresseId).push(k);
+  }
+
+  for (const provider of providers) {
+    const records = byAdresse.get(provider.id) || [];
+    const byType = {};
+    for (const r of records) {
+      // Keep first record per type (primary/oldest)
+      if (byType[r.KommunikationstypValue] === undefined) {
+        byType[r.KommunikationstypValue] = r.Wert;
+      }
+    }
+
+    provider.email = byType[0] || null;              // Type 0: Email
+    provider.phone = byType[1] || byType[2] || null;  // Type 1: Phone, fallback Type 2: Mobile
+    provider.website = byType[3] || null;              // Type 3: Website
+  }
+
+  return providers;
 }

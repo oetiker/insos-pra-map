@@ -6,8 +6,8 @@ import { mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { fetchProviders, fetchPraLookup } from '../server/odata-client.js';
-import { normalizeProviders } from '../server/normalizer.js';
+import { fetchProviders, fetchPraLookup, fetchKommunikationsmittel } from '../server/odata-client.js';
+import { normalizeProviders, joinContactData } from '../server/normalizer.js';
 import { geocodeAll } from '../server/geocoder.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -31,6 +31,16 @@ async function buildData() {
     console.log('Normalizing provider data...');
     const normalized = normalizeProviders(rawProviders, praLookup);
     console.log(`Normalized to ${normalized.length} providers`);
+
+    // Fetch and join contact data
+    console.log('Fetching contact data (Kommunikationsmittel)...');
+    const providerIds = normalized.map(p => p.id);
+    const kontakt = await fetchKommunikationsmittel(providerIds);
+    joinContactData(normalized, kontakt);
+    const hasEmail = normalized.filter(p => p.email).length;
+    const hasPhone = normalized.filter(p => p.phone).length;
+    const hasWeb = normalized.filter(p => p.website).length;
+    console.log(`Fetched contact data for ${normalized.length} providers (email: ${hasEmail}, phone: ${hasPhone}, website: ${hasWeb})`);
 
     // Geocode
     console.log('Geocoding providers...');

@@ -93,6 +93,50 @@ export async function fetchPraLookup() {
 }
 
 /**
+ * Fetch Kommunikationsmittel (contact data) for a list of provider IDs.
+ * Batches requests in groups of 20 IDs using `or` chains to stay within URL limits.
+ *
+ * @param {string[]} providerIds - Array of provider ID GUIDs
+ * @returns {Promise<Array>} Array of { AdresseId, KommunikationstypValue, Wert } records
+ */
+export async function fetchKommunikationsmittel(providerIds) {
+  const BATCH_SIZE = 20;
+  const allResults = [];
+
+  for (let i = 0; i < providerIds.length; i += BATCH_SIZE) {
+    const batch = providerIds.slice(i, i + BATCH_SIZE);
+    const orFilter = batch
+      .map(id => `AdresseId eq ${id}`)
+      .join(' or ');
+
+    const params = new URLSearchParams({
+      '$filter': `(${orFilter}) and IstAktiv eq true`,
+      '$select': 'AdresseId,KommunikationstypValue,Wert',
+      '$format': 'json'
+    });
+
+    const url = `${ODATA_BASE}/Kommunikationsmittel?${params}`;
+    const response = await fetch(url, {
+      headers: { 'User-Agent': USER_AGENT }
+    });
+
+    if (response.ok) {
+      const json = await response.json();
+      allResults.push(...json.value);
+    } else {
+      console.warn(`Kommunikationsmittel batch ${Math.floor(i / BATCH_SIZE) + 1} returned ${response.status}`);
+    }
+
+    // Politeness delay between batch requests
+    if (i + BATCH_SIZE < providerIds.length) {
+      await new Promise(r => setTimeout(r, 200));
+    }
+  }
+
+  return allResults;
+}
+
+/**
  * Clear all cached data. Useful for testing.
  */
 export function clearCache() {

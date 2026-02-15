@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-14)
 
 **Core value:** A person looking for a PrA training spot can quickly find which INSOS members near them offer the profession they're interested in.
-**Current focus:** Phase 1 complete — ready for Phase 2
+**Current focus:** Phase 2 complete — interactive map with clustered markers
 
 ## Current Position
 
-Phase: 1 of 5 (Data Pipeline) -- COMPLETE
-Plan: 2 of 2 in current phase
+Phase: 2 of 5 (Interactive Map) -- COMPLETE
+Plan: 1 of 1 in current phase
 Status: Phase Complete
-Last activity: 2026-02-15 -- Completed quick task 1: Refactor to static site with baked-in data and GitHub Actions weekly rebuild
+Last activity: 2026-02-15 -- Completed 02-01: Interactive map with SOSM tiles and marker clustering
 
-Progress: [##........] 20%
+Progress: [####......] 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 4min
-- Total execution time: 0.20 hours
+- Total execution time: 0.23 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-data-pipeline | 2/2 | 9min | 5min |
+| 02-interactive-map | 1/1 | 2min | 2min |
 | quick | 1/1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min), 01-02 (6min), quick-1 (3min)
+- Last 5 plans: 01-01 (3min), 01-02 (6min), quick-1 (3min), 02-01 (2min)
 - Trend: Consistent
 
 *Updated after each plan completion*
@@ -51,6 +52,9 @@ Recent decisions affecting current work:
 - Build-time OData fetch from performx.artiset.ch with seed data fallback
 - geo.admin.ch geocoder with SQLite cache (persists across rebuilds)
 - GitHub Actions cron (weekly Monday 6am UTC) + manual trigger for rebuild and deploy
+- maxClusterRadius 50 for tighter clustering with 365 Swiss providers
+- Minimal popup (provider name only) in Phase 2 -- full details deferred to Phase 3
+- SOSM Swiss-style tiles as primary tile layer (fallback can be added in Phase 5)
 
 ### Pending Todos
 
@@ -71,5 +75,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-15
-Stopped at: Completed quick-1: static site refactor with baked-in data
+Stopped at: Completed 02-01-PLAN.md: Interactive map with SOSM tiles and marker clustering
 Resume file: None

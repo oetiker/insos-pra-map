@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Interactive Map** - Render OpenStreetMap with provider pin markers and clustering
 - [x] **Phase 3: Provider Details** - Pin popups with contact info and INSOS page link
 - [x] **Phase 4: Filtering** - Sector/profession hierarchical filtering with real-time map updates
-- [ ] **Phase 5: Polish & Shareability** - Responsive layout, German plain language, shareable URLs
+- [x] **Phase 5: Polish & Shareability** - Responsive layout, German plain language, shareable URLs
 
 ## Phase Details
 
@@ -92,8 +92,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — German labels on floating filter control, Einfache Sprache text polish
-- [ ] 05-02-PLAN.md — URL hash state for shareable filter selections and map position
+- [x] 05-01-PLAN.md — German labels on floating filter control, Einfache Sprache text polish
+- [x] 05-02-PLAN.md — URL hash state for shareable filter selections and map position
 
 ## Progress
 
@@ -106,4 +106,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Interactive Map | 1/1 | ✓ Complete | 2026-02-15 |
 | 3. Provider Details | 1/1 | ✓ Complete | 2026-02-15 |
 | 4. Filtering | 1/1 | ✓ Complete | 2026-02-15 |
-| 5. Polish & Shareability | 0/2 | Not started | - |
+| 5. Polish & Shareability | 2/2 | ✓ Complete | 2026-02-15 |

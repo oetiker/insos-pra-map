@@ -7,22 +7,28 @@ import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
-// Fix Leaflet default marker icons for Vite asset bundling
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
 import { findSector } from './filters.js';
 
-L.Icon.Default.prototype.options.iconUrl = markerIcon;
-L.Icon.Default.prototype.options.iconRetinaUrl = markerIcon2x;
-L.Icon.Default.prototype.options.shadowUrl = markerShadow;
-L.Icon.Default.imagePath = '';
+// SVG pin marker — round top, tapering to a point at bottom
+function svgMarker(fill, stroke, label) {
+  return `<svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.5 1C6.1 1 1 6.1 1 12.2C1 14.8 1.9 17.2 3.4 19.2C3.4 19.2 12.5 39 12.5 39C12.5 39 21.6 19.2 21.6 19.2C23.1 17.2 24 14.8 24 12.2C24 6.1 18.9 1 12.5 1Z" fill="${fill}" stroke="${stroke}" stroke-width="1.2"/>
+    ${label ? `<text x="12.5" y="18.5" text-anchor="middle" fill="white" font-size="18" font-weight="700" font-family="sans-serif">${label}</text>` : `<circle cx="12.5" cy="12.2" r="4.5" fill="white" opacity="0.9"/>`}
+  </svg>`;
+}
 
-// Special marker icon for sibling locations (inherited PrA — uncertain assignment)
+const defaultIcon = L.divIcon({
+  className: 'svg-marker',
+  html: svgMarker('#2A81CB', '#1E6EAA', ''),
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+});
+
+// Sibling location marker — same shape, white "?" instead of dot
 const siblingIcon = L.divIcon({
-  className: 'sibling-marker',
-  html: '<div class="sibling-marker-pin"></div>',
+  className: 'svg-marker',
+  html: svgMarker('#2A81CB', '#1E6EAA', '?'),
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34]
@@ -115,7 +121,8 @@ export function updateMarkers(clusters, providers, sector, profession) {
   const markers = [];
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
-      const opts = provider.inheritedPra ? { icon: siblingIcon } : {};
+      const icon = provider.inheritedPra ? siblingIcon : defaultIcon;
+      const opts = { icon };
       const marker = L.marker([provider.lat, provider.lon], opts);
       marker._providerId = provider.id;
       marker._provider = provider;
@@ -167,7 +174,8 @@ export function initMap(containerId, providers) {
   let markerCount = 0;
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
-      const opts = provider.inheritedPra ? { icon: siblingIcon } : {};
+      const icon = provider.inheritedPra ? siblingIcon : defaultIcon;
+      const opts = { icon };
       const marker = L.marker([provider.lat, provider.lon], opts);
       marker._providerId = provider.id;
       marker._provider = provider;

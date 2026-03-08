@@ -86,8 +86,9 @@ function extractLocationInfo(fullAddress, firma, street, plzOrt) {
  * @returns {Array} Extended providers array (original + siblings)
  */
 export function addSiblingLocations(providers, allAddresses, praLookup) {
-  // Build set of existing provider IDs (addresses that already have PrA)
+  // Build set of existing provider IDs and their addresses for dedup
   const existingIds = new Set(providers.map(p => p.id));
+  const existingAddresses = new Set(providers.map(p => `${p.name}|${p.street}|${p.plzOrt}`));
 
   // Build map: Firma -> aggregated praOfferings from all PrA providers of that firm
   const firmaPra = new Map();
@@ -115,6 +116,10 @@ export function addSiblingLocations(providers, allAddresses, praLookup) {
     const hasStreet = raw.AktuelleStrasseUndNummer && raw.AktuelleStrasseUndNummer.trim();
     const hasPlzOrt = raw.AktuellerOrtUndPLZ && raw.AktuellerOrtUndPLZ.trim();
     if (!hasStreet && !hasPlzOrt) continue;
+    // Skip duplicates at same address as an existing provider or sibling
+    const addrKey = `${raw.Firma}|${raw.AktuelleStrasseUndNummer}|${raw.AktuellerOrtUndPLZ}`;
+    if (existingAddresses.has(addrKey)) continue;
+    existingAddresses.add(addrKey);
 
     const locationInfo = extractLocationInfo(
       raw.AktuelleAdresse, raw.Firma,

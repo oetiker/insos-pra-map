@@ -126,30 +126,10 @@ body {
   border-color: #0066cc;
 }
 
-/* Sibling location marker (inherited PrA — uncertain assignment) */
-.sibling-marker {
+/* SVG map markers (default + sibling) */
+.svg-marker {
   background: transparent;
   border: none;
-}
-.sibling-marker-pin {
-  width: 25px;
-  height: 41px;
-  background: #e67e22;
-  border: 2px solid #bf6516;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  position: relative;
-}
-.sibling-marker-pin::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* Popup location info line (e.g. "Gärtnerei", "Produktion Olten") */

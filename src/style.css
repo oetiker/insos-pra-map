@@ -126,6 +126,51 @@ body {
   border-color: #0066cc;
 }
 
+/* Sibling location marker (inherited PrA — uncertain assignment) */
+.sibling-marker {
+  background: transparent;
+  border: none;
+}
+.sibling-marker-pin {
+  width: 25px;
+  height: 41px;
+  background: #e67e22;
+  border: 2px solid #bf6516;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: relative;
+}
+.sibling-marker-pin::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Popup location info line (e.g. "Gärtnerei", "Produktion Olten") */
+.provider-popup-location-info {
+  color: #e67e22;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 2px 0;
+}
+
+/* Popup warning for inherited PrA */
+.provider-popup-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin: 6px 0;
+}
+
 /* No results overlay */
 .no-results-overlay {
   position: absolute;

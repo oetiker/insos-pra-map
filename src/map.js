@@ -19,6 +19,15 @@ L.Icon.Default.prototype.options.iconRetinaUrl = markerIcon2x;
 L.Icon.Default.prototype.options.shadowUrl = markerShadow;
 L.Icon.Default.imagePath = '';
 
+// Special marker icon for sibling locations (inherited PrA — uncertain assignment)
+const siblingIcon = L.divIcon({
+  className: 'sibling-marker',
+  html: '<div class="sibling-marker-pin"></div>',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+});
+
 /**
  * HTML-escape a string to prevent XSS from external provider data.
  * Returns empty string for falsy input.
@@ -39,7 +48,13 @@ function esc(str) {
 export function buildPopupContent(provider, sector, profession) {
   let html = '<div class="provider-popup">';
   html += `<strong>${esc(provider.name)}</strong>`;
+  if (provider.locationInfo) {
+    html += `<p class="provider-popup-location-info">${esc(provider.locationInfo)}</p>`;
+  }
   html += `<p class="provider-popup-address">${esc(provider.street)}<br>${esc(provider.plzOrt)}</p>`;
+  if (provider.inheritedPra) {
+    html += '<p class="provider-popup-warning">⚠ PrA-Zuordnung unsicher — Angebote vom Hauptsitz, Standort unklar</p>';
+  }
 
   // Profession section (context-aware)
   if (sector && profession) {
@@ -100,7 +115,8 @@ export function updateMarkers(clusters, providers, sector, profession) {
   const markers = [];
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
-      const marker = L.marker([provider.lat, provider.lon]);
+      const opts = provider.inheritedPra ? { icon: siblingIcon } : {};
+      const marker = L.marker([provider.lat, provider.lon], opts);
       marker._providerId = provider.id;
       marker._provider = provider;
       marker.bindPopup(buildPopupContent(provider, sector, profession), { maxHeight: 300 });
@@ -151,7 +167,8 @@ export function initMap(containerId, providers) {
   let markerCount = 0;
   for (const provider of providers) {
     if (provider.lat != null && provider.lon != null) {
-      const marker = L.marker([provider.lat, provider.lon]);
+      const opts = provider.inheritedPra ? { icon: siblingIcon } : {};
+      const marker = L.marker([provider.lat, provider.lon], opts);
       marker._providerId = provider.id;
       marker._provider = provider;
       marker.bindPopup(buildPopupContent(provider, '', ''), { maxHeight: 300 });

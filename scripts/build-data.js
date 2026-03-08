@@ -6,8 +6,8 @@ import { mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { fetchProviders, fetchPraLookup, fetchKommunikationsmittel } from '../server/odata-client.js';
-import { normalizeProviders, joinContactData } from '../server/normalizer.js';
+import { fetchProviders, fetchPraLookup, fetchKommunikationsmittel, fetchAllAddresses } from '../server/odata-client.js';
+import { normalizeProviders, joinContactData, addSiblingLocations } from '../server/normalizer.js';
 import { geocodeAll } from '../server/geocoder.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,18 +19,24 @@ async function buildData() {
   console.log('Starting data pipeline...');
 
   try {
-    // Fetch both data sources in parallel
-    console.log('Fetching OData providers and PrA lookup...');
-    const [rawProviders, praLookup] = await Promise.all([
+    // Fetch all data sources in parallel
+    console.log('Fetching OData providers, PrA lookup, and all addresses...');
+    const [rawProviders, praLookup, allAddresses] = await Promise.all([
       fetchProviders(),
-      fetchPraLookup()
+      fetchPraLookup(),
+      fetchAllAddresses()
     ]);
-    console.log(`Fetched ${rawProviders.length} providers and ${praLookup.length} PrA professions`);
+    console.log(`Fetched ${rawProviders.length} PrA providers, ${praLookup.length} PrA professions, ${allAddresses.length} total addresses`);
 
-    // Normalize
+    // Normalize PrA providers
     console.log('Normalizing provider data...');
-    const normalized = normalizeProviders(rawProviders, praLookup);
-    console.log(`Normalized to ${normalized.length} providers`);
+    let normalized = normalizeProviders(rawProviders, praLookup);
+    console.log(`Normalized to ${normalized.length} PrA providers`);
+
+    // Add sibling locations (multi-site firms)
+    console.log('Adding sibling locations for multi-site firms...');
+    normalized = addSiblingLocations(normalized, allAddresses, praLookup);
+    console.log(`Total providers (incl. siblings): ${normalized.length}`);
 
     // Fetch and join contact data
     console.log('Fetching contact data (Kommunikationsmittel)...');

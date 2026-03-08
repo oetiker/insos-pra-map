@@ -50,6 +50,106 @@ export function normalizeProviders(rawProviders, praLookup) {
     });
 }
 
+// Keywords in locationInfo that indicate non-work locations (no PrA relevance)
+const EXCLUDE_KEYWORDS = [
+  'wohnen', 'wohnheim', 'wohngruppe', 'tagesstätte',
+  'rechnungseingang', 'sozialberatung'
+];
+
+/**
+ * Extract the location info line from AktuelleAdresse.
+ * The address format is: "Firma\n[LocationInfo\n]Strasse\nPLZ Ort"
+ * If there are 4+ lines, line 2 is the location info (e.g. "Gärtnerei", "Produktion Olten").
+ * @param {string} fullAddress
+ * @param {string} firma - Firm name to skip
+ * @param {string} street - Street to skip
+ * @param {string} plzOrt - PLZ+Ort to skip
+ * @returns {string|null} Location info or null
+ */
+function extractLocationInfo(fullAddress, firma, street, plzOrt) {
+  if (!fullAddress) return null;
+  const lines = fullAddress.replace(/\r\n/g, '\n').split('\n').map(l => l.trim()).filter(Boolean);
+  // Remove known lines (firma, street, plzOrt) — what remains is location info
+  const known = new Set([firma, street, plzOrt].filter(Boolean).map(s => s.trim()));
+  const extra = lines.filter(l => !known.has(l));
+  return extra.length > 0 ? extra.join(', ') : null;
+}
+
+/**
+ * Add sibling locations for multi-site firms.
+ * For firms that have PrA providers, find their other Typ-0 addresses
+ * and create provider entries with inherited PrA offerings.
+ *
+ * @param {Array} providers - Normalized providers (with PrA)
+ * @param {Array} allAddresses - Raw Typ-0 addresses from fetchAllAddresses()
+ * @param {Array} praLookup - PrA lookup table
+ * @returns {Array} Extended providers array (original + siblings)
+ */
+export function addSiblingLocations(providers, allAddresses, praLookup) {
+  // Build set of existing provider IDs (addresses that already have PrA)
+  const existingIds = new Set(providers.map(p => p.id));
+
+  // Build map: Firma -> aggregated praOfferings from all PrA providers of that firm
+  const firmaPra = new Map();
+  for (const p of providers) {
+    const key = p.name;
+    if (!firmaPra.has(key)) {
+      firmaPra.set(key, []);
+    }
+    for (const o of p.praOfferings) {
+      // Avoid duplicates
+      if (!firmaPra.get(key).some(e => e.id === o.id)) {
+        firmaPra.get(key).push(o);
+      }
+    }
+  }
+
+  // Find sibling addresses: same Firma, Typ-0, but no own PrA
+  const siblings = [];
+  for (const raw of allAddresses) {
+    // Skip if this address already has PrA (already in providers)
+    if (existingIds.has(raw.Id)) continue;
+    // Skip if the firm doesn't have any PrA providers
+    if (!firmaPra.has(raw.Firma)) continue;
+    // Must have address data
+    const hasStreet = raw.AktuelleStrasseUndNummer && raw.AktuelleStrasseUndNummer.trim();
+    const hasPlzOrt = raw.AktuellerOrtUndPLZ && raw.AktuellerOrtUndPLZ.trim();
+    if (!hasStreet && !hasPlzOrt) continue;
+
+    const locationInfo = extractLocationInfo(
+      raw.AktuelleAdresse, raw.Firma,
+      raw.AktuelleStrasseUndNummer, raw.AktuellerOrtUndPLZ
+    );
+
+    // Filter out non-work locations
+    if (locationInfo) {
+      const lower = locationInfo.toLowerCase();
+      if (EXCLUDE_KEYWORDS.some(kw => lower.includes(kw))) continue;
+    }
+
+    siblings.push({
+      id: raw.Id,
+      name: raw.Firma,
+      street: raw.AktuelleStrasseUndNummer,
+      plzOrt: raw.AktuellerOrtUndPLZ,
+      fullAddress: (raw.AktuelleAdresse || '').replace(/\r\n/g, '\n'),
+      lat: null,
+      lon: null,
+      approximate: false,
+      praOfferings: firmaPra.get(raw.Firma),
+      praCount: raw.AnzahlAdressePraktischeAusbildungList || 0,
+      website: null,
+      phone: null,
+      email: null,
+      inheritedPra: true,
+      locationInfo
+    });
+  }
+
+  console.log(`Added ${siblings.length} sibling locations from ${new Set(siblings.map(s => s.name)).size} firms`);
+  return [...providers, ...siblings];
+}
+
 /**
  * Join Kommunikationsmittel contact data into normalized provider records.
  * Maps KommunikationstypValue to contact fields:

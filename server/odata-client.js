@@ -7,7 +7,8 @@ const USER_AGENT = 'INSOS-PrA-Map/1.0 (+https://github.com/oetiker/insos-map)';
 
 const cache = {
   providers: { data: null, timestamp: 0 },
-  praLookup: { data: null, timestamp: 0 }
+  praLookup: { data: null, timestamp: 0 },
+  allAddresses: { data: null, timestamp: 0 }
 };
 
 /**
@@ -46,6 +47,47 @@ export async function fetchProviders() {
     // Stale-on-error: return cached data if available
     if (entry.data) {
       console.error(`OData fetch failed, serving stale data: ${err.message}`);
+      return entry.data;
+    }
+    throw err;
+  }
+}
+
+/**
+ * Fetch ALL Typ-0 addresses (without PrA filter).
+ * Used to find sibling locations of firms that offer PrA at their main site.
+ * Returns array of raw address objects (without AdressePraktischeAusbildungList expansion).
+ */
+export async function fetchAllAddresses() {
+  const entry = cache.allAddresses;
+  if (entry.data && Date.now() - entry.timestamp < CACHE_TTL) {
+    return entry.data;
+  }
+
+  const params = new URLSearchParams({
+    '$filter': 'AdressTypValue eq 0',
+    '$select': 'Id,Firma,AktuelleStrasseUndNummer,AktuellerOrtUndPLZ,AktuelleAdresse,AnzahlAdressePraktischeAusbildungList',
+    '$format': 'json'
+  });
+
+  const url = `${ODATA_BASE}/Adresse?${params}`;
+
+  try {
+    const response = await fetch(url, {
+      headers: { 'User-Agent': USER_AGENT }
+    });
+
+    if (!response.ok) {
+      throw new Error(`OData allAddresses returned ${response.status}: ${response.statusText}`);
+    }
+
+    const json = await response.json();
+    const data = json.value;
+    cache.allAddresses = { data, timestamp: Date.now() };
+    return data;
+  } catch (err) {
+    if (entry.data) {
+      console.error(`OData allAddresses fetch failed, serving stale data: ${err.message}`);
       return entry.data;
     }
     throw err;
@@ -142,4 +184,5 @@ export async function fetchKommunikationsmittel(providerIds) {
 export function clearCache() {
   cache.providers = { data: null, timestamp: 0 };
   cache.praLookup = { data: null, timestamp: 0 };
+  cache.allAddresses = { data: null, timestamp: 0 };
 }
